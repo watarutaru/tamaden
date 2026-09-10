@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5c63c">
+<title>たま電 プログラム</title>
+<meta name="description" content="身内向け音楽イベント「たま電」当日プログラム">
+
+<!-- ===== フォント（Google Fonts） ===== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wght@400;600;700&family=Zalando+Sans+Expanded:wght@400;700;900&family=Zen+Kaku+Gothic+Antique:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   たま電 プログラムページ
+   - スマホファースト / 縦スクロール1枚
+   - 色や文言はこの下の変数・HTMLを編集すればOK
+   ========================================================= */
+:root{
+  --bg:#f5c63c;      /* 背景イエロー（お好みで微調整可） */
+  --ink:#2f2725;     /* 濃い茶（文字・ケーブル・バッジ） */
+  --panel:#4c4948;   /* グレーのブロック */
+  --white:#ffffff;
+  --discord:#5865f2;
+  --map:#2ea0f2;
+  --disp:'Zalando Sans Expanded','Zen Kaku Gothic Antique',sans-serif; /* 見出し等・欧文 */
+  --body:'Zen Kaku Gothic Antique','Zalando Sans',sans-serif;          /* 本文（日本語） */
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  -webkit-font-smoothing:antialiased;
+  -webkit-text-size-adjust:100%;
+  padding-bottom:96px; /* Discordボタンの余白 */
+}
+.wrap{
+  width:100%;
+  max-width:402px;
+  margin:0 auto;
+  padding:24px 24px 8px;
+}
+
+/* ===== ヘッダー（ツマミ + ロゴ） ===== */
+.head{display:flex;align-items:center;gap:14px}
+.knob-wrap{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;width:52px}
+.knob{
+  width:46px;height:46px;border-radius:50%;position:relative;
+  cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;
+  background:radial-gradient(circle at 38% 30%, #5c5754, #201c1b 72%);
+  box-shadow:0 2px 4px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.18), inset 0 -2px 3px rgba(0,0,0,.4);
+}
+.knob:active{cursor:grabbing}
+.knob::after{ /* 指針 */
+  content:"";position:absolute;left:50%;top:5px;width:3px;height:14px;margin-left:-1.5px;
+  border-radius:2px;background:#f2efe9;box-shadow:0 0 2px rgba(0,0,0,.5);
+}
+.knob-label{font-family:var(--disp);font-weight:700;font-size:9px;letter-spacing:.08em;color:var(--ink)}
+
+/* ロゴ（Figma書き出しのSVGをそのまま埋め込み。枠線もSVGに含まれる） */
+.logo{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center}
+.logo .logo-svg{width:100%;height:auto;max-width:190px;display:block}
+
+/* ===== 汎用 ===== */
+.h{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink);margin:0 0 8px}
+.card{background:var(--white);border-radius:8px;padding:12px 16px;font-family:var(--body);font-weight:500;
+  font-size:11px;line-height:1.5;color:var(--ink)}
+.card p{margin:0 0 4px}
+.card p:last-child{margin:0}
+
+/* ===== グレーのブロック（日付 / SETTING CHANGE / AFTER PARTY） ===== */
+.panel{background:var(--panel);color:var(--white);border-radius:4px;padding:16px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;margin:24px 0}
+.panel .pt{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.06em}
+.panel .pb{font-family:var(--body);font-weight:400;font-size:11px;line-height:1.4}
+.panel.date .d-jp{font-family:var(--body);font-weight:900;font-size:14px}
+.panel.date>div{font-family:var(--disp);font-weight:700;font-size:14px}
+
+/* AFTER PARTY */
+.panel .venue{font-family:var(--body);font-weight:700;font-size:12px}
+.mapbtn{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;width:150px;
+  background:var(--map);color:var(--white);text-decoration:none;border-radius:38px;padding:8px 16px;
+  font-family:var(--disp);font-weight:900;font-size:10px;letter-spacing:.04em}
+.mapbtn svg{width:16px;height:16px;flex:0 0 auto}
+
+/* ===== タイムライン ===== */
+.seg{display:flex;align-items:stretch}
+.rail{width:40px;flex:0 0 40px;display:flex;flex-direction:column;align-items:center}
+.rail .plug{width:40px;height:auto;display:block}
+.spine{width:6px;flex:1 1 auto;min-height:8px;background:var(--ink);border-radius:3px;margin-top:-3px}
+.seg .body{flex:1 1 auto;min-width:0;padding:8px 24px}
+.sub{margin-bottom:16px}
+.sub:last-child{margin-bottom:0}
+.list{margin-top:4px}
+
+/* 出演行 */
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0}
+.row .left{display:flex;align-items:center;gap:8px;min-width:0}
+.num{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--white);
+  font-family:var(--disp);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+.name{font-family:var(--body);font-weight:900;font-size:16px;line-height:1.15;color:var(--ink);overflow-wrap:anywhere}
+.cat{flex:0 0 auto;font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.06em;color:var(--ink)}
+
+/* ===== Discordフローティングボタン ===== */
+.fab{position:fixed;right:16px;bottom:16px;z-index:50;width:64px;height:64px;border-radius:18px;
+  background:var(--discord);color:var(--white);text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  box-shadow:0 4px 14px rgba(0,0,0,.28)}
+.fab svg{width:34px;height:26px}
+.fab span{font-family:var(--body);font-weight:700;font-size:9px}
+
+/* iPhoneのセーフエリア対応 */
+@supports(padding:max(0px)){
+  .fab{right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom))}
+}
+</style>
+</head>
+<body>
+
+<!-- 再利用するアイコン定義（画面には出ない） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="plug" viewBox="0 0 40 64">
+    <polygon points="20,3 35,12 35,30 20,39 5,30 5,12" fill="#c9c9c9"/>
+    <polygon points="20,6 32,13.5 32,28.5 20,36 8,28.5 8,13.5" fill="#e4e4e4"/>
+    <circle cx="20" cy="21" r="6.5" fill="#2f2725"/>
+    <path d="M20,38 C20,45 26,46 26,51 C26,57 20,56 20,63" fill="none" stroke="#2f2725" stroke-width="6" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<main class="wrap">
+
+  <!-- ============ ヘッダー ============ -->
+  <header class="head">
+    <div class="knob-wrap">
+      <div class="knob" data-a="-125" aria-hidden="true"></div>
+      <span class="knob-label">GAIN</span>
+    </div>
+
+    <!-- ▼ ロゴ（Figma書き出しSVG） -->
+    <div class="logo">
+      <svg class="logo-svg" width="188" height="57" viewBox="0 0 188 57" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TAMADEN">
+        <g clip-path="url(#clip0_94_1062)">
+          <path d="M26.9373 18.5322C26.9373 17.3973 26.3637 16.8236 25.2288 16.8236H22.111C20.9762 16.8236 20.4025 16.25 20.4025 15.1151V14.6412C20.4025 13.5064 20.9762 12.9327 22.111 12.9327H35.6046C36.7395 12.9327 37.3132 13.5064 37.3132 14.6412V15.1151C37.3132 16.25 36.7395 16.8236 35.6046 16.8236H32.5243C31.3895 16.8236 30.8158 17.3973 30.8158 18.5322V41.8903C30.8158 43.0252 30.2421 43.5988 29.1073 43.5988H28.6334C27.4985 43.5988 26.9248 43.0252 26.9248 41.8903V18.5322H26.9373Z" fill="#2F2725"/>
+          <path d="M36.6023 41.7653L42.0272 14.5162C42.2517 13.4936 42.8627 12.9823 43.8604 12.9823H49.2354C50.258 12.9823 50.8691 13.4936 51.0687 14.5162L56.6182 41.7653C56.6432 41.8526 56.6557 42.0272 56.6557 42.2766C56.6557 43.187 56.1319 43.6484 55.0718 43.6484H54.5605C53.5629 43.6484 52.9518 43.1371 52.7273 42.1145L51.6548 36.9889C51.4553 35.9663 50.8442 35.455 49.8216 35.455H43.3741C42.3764 35.455 41.7653 35.9663 41.5408 36.9889L40.4683 42.1145C40.2688 43.1371 39.6577 43.6484 38.6351 43.6484H38.1238C37.0762 43.6484 36.54 43.1745 36.54 42.2392C36.54 42.0147 36.5524 41.8526 36.5774 41.7653H36.6023ZM44.5463 31.6015H48.6493C49.6968 31.6015 50.2331 31.1525 50.2331 30.2296C50.2331 29.9678 50.2206 29.8056 50.1957 29.7183L47.8511 18.4072C47.6516 17.3845 47.2276 16.8732 46.5666 16.8732C45.9057 16.8732 45.5191 17.3845 45.2821 18.4072L43.0249 29.7183C42.9999 29.8056 42.9875 29.9553 42.9875 30.1922C42.9875 31.1276 43.5112 31.6015 44.5713 31.6015H44.5463Z" fill="#2F2725"/>
+          <path d="M59.6612 41.89V14.6908C59.6612 13.556 60.2348 12.9823 61.3697 12.9823H62.0057C63.0034 12.9823 63.6394 13.4562 63.9262 14.3915L69.7377 32.9608C69.85 33.3599 70.0121 33.6592 70.2116 33.8587C70.4111 34.0582 70.6107 34.158 70.8102 34.158C71.3215 34.158 71.6957 33.7465 71.9201 32.9234L77.3824 14.4289C77.6693 13.4562 78.3053 12.9823 79.303 12.9823H80.0263C81.1611 12.9823 81.7348 13.556 81.7348 14.6908V41.89C81.7348 43.0249 81.1611 43.5985 80.0263 43.5985H79.6023C78.4674 43.5985 77.8937 43.0249 77.8937 41.89V31.776C77.8937 30.953 77.5944 30.5414 76.9958 30.5414C76.5095 30.5414 76.1852 30.8532 76.0106 31.4767L73.6661 39.5081C73.3792 40.4808 72.7432 40.9547 71.7455 40.9547H70.0744C69.0768 40.9547 68.4283 40.4808 68.1165 39.5455L65.4228 31.0028C65.1983 30.3544 64.8491 30.0176 64.4001 30.0176C63.8015 30.0176 63.5022 30.4417 63.5022 31.3022V41.89C63.5022 43.0249 62.9286 43.5985 61.7937 43.5985H61.3697C60.2348 43.5985 59.6612 43.0249 59.6612 41.89Z" fill="#2F2725"/>
+          <path d="M84.7777 41.7653L90.2026 14.5162C90.4271 13.4936 91.0381 12.9823 92.0358 12.9823H97.4108C98.4334 12.9823 99.0445 13.4936 99.244 14.5162L104.794 41.7653C104.819 41.8526 104.831 42.0272 104.831 42.2766C104.831 43.187 104.307 43.6484 103.247 43.6484H102.736C101.738 43.6484 101.127 43.1371 100.903 42.1145L99.8302 36.9889C99.6306 35.9663 99.0196 35.455 97.9969 35.455H91.5494C90.5518 35.455 89.9407 35.9663 89.7162 36.9889L88.6437 42.1145C88.4442 43.1371 87.8331 43.6484 86.8105 43.6484H86.2992C85.2516 43.6484 84.7153 43.1745 84.7153 42.2392C84.7153 42.0147 84.7278 41.8526 84.7528 41.7653H84.7777ZM92.7217 31.6015H96.8247C97.8722 31.6015 98.4085 31.1525 98.4085 30.2296C98.4085 29.9678 98.396 29.8056 98.3711 29.7183L96.0265 18.4072C95.827 17.3845 95.403 16.8732 94.742 16.8732C94.0811 16.8732 93.6945 17.3845 93.4575 18.4072L91.2003 29.7183C91.1753 29.8056 91.1628 29.9553 91.1628 30.1922C91.1628 31.1276 91.6866 31.6015 92.7467 31.6015H92.7217Z" fill="#2F2725"/>
+          <path d="M107.837 41.9274V14.6908C107.837 13.556 108.41 12.9823 109.545 12.9823H120.432C121.23 12.9823 121.929 13.2816 122.527 13.8802L123.899 15.252C124.473 15.8257 124.76 16.524 124.76 17.3471V39.2961C124.822 40.0942 124.535 40.805 123.899 41.4286L122.527 42.8004C121.954 43.3741 121.255 43.6484 120.432 43.6484H109.545C108.41 43.6484 107.837 43.0748 107.837 41.9399V41.9274ZM121.442 17.1975C121.28 16.8483 120.981 16.6488 120.632 16.6488H116.267C115.743 16.6488 115.207 17.0852 114.982 17.6714L110.356 29.843C110.206 30.2421 110.219 30.6661 110.381 30.9904C110.543 31.3271 110.842 31.5266 111.191 31.5391L114.621 31.589L112.139 39.4332C112.077 39.6328 111.952 40.0443 112.176 40.4559C112.276 40.6429 112.451 40.7552 112.625 40.7552H112.663C113 40.7552 113.199 40.4309 113.299 40.2813L121.318 27.5359C121.654 26.9872 121.517 26.5008 121.467 26.3636C121.417 26.2265 121.193 25.7775 120.657 25.7775H118.1L121.442 18.3323C121.617 17.9457 121.629 17.5093 121.467 17.1725L121.442 17.1975Z" fill="#2F2725"/>
+          <path d="M129.062 41.2914C128.488 40.7177 128.202 40.0194 128.202 39.1963V14.6035C128.202 13.4687 128.775 12.895 129.91 12.895H143.366C144.501 12.895 145.075 13.4687 145.075 14.6035V15.0774C145.075 16.2123 144.501 16.7859 143.366 16.7859H133.764C132.629 16.7859 132.055 17.3596 132.055 18.4945V24.2186C132.055 25.3535 132.629 25.9272 133.764 25.9272H143.366C144.501 25.9272 145.075 26.5008 145.075 27.6357V28.1096C145.075 29.2444 144.501 29.8181 143.366 29.8181H133.764C132.629 29.8181 132.055 30.3918 132.055 31.5266V37.9741C132.055 39.109 132.629 39.6826 133.764 39.6826H143.366C144.501 39.6826 145.075 40.2563 145.075 41.3912V41.8651C145.075 42.9999 144.501 43.5736 143.366 43.5736H132.517C131.718 43.5736 131.02 43.2743 130.421 42.6757L129.05 41.3039L129.062 41.2914Z" fill="#2F2725"/>
+          <path d="M148.255 41.9274V14.6534C148.255 13.5185 148.829 12.9449 149.964 12.9449H150.824C151.759 12.9449 152.42 13.3689 152.794 14.2294L159.666 30.0675C159.978 30.7534 160.364 31.0901 160.813 31.0901C161.387 31.0901 161.661 30.6162 161.661 29.6809V14.6534C161.661 13.5185 162.235 12.9449 163.37 12.9449H163.844C164.979 12.9449 165.552 13.5185 165.552 14.6534V41.9399C165.552 43.0748 164.979 43.6484 163.844 43.6484H163.37C162.459 43.6484 161.798 43.2244 161.399 42.3639L154.141 25.7526C153.854 25.0667 153.48 24.7299 153.031 24.7299C152.433 24.7299 152.133 25.2163 152.133 26.1766V41.9274C152.133 43.0623 151.56 43.6359 150.425 43.6359H149.951C148.816 43.6359 148.243 43.0623 148.243 41.9274H148.255Z" fill="#2F2725"/>
+          <path d="M175.093 56.5434H12.9075C5.78653 56.5434 0 50.7569 0 43.636V12.9075C0 5.78653 5.78653 0 12.9075 0H175.093C182.213 0 188 5.78653 188 12.9075V43.6235C188 50.7444 182.213 56.5309 175.093 56.5309V56.5434ZM12.9075 3.19257C7.54494 3.19257 3.19257 7.54494 3.19257 12.9075V43.6235C3.19257 48.986 7.54494 53.3384 12.9075 53.3384H175.093C180.455 53.3384 184.807 48.986 184.807 43.6235V12.9075C184.807 7.54494 180.455 3.19257 175.093 3.19257H12.9075Z" fill="#2F2725"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_94_1062"><rect width="188" height="56.5434" fill="white"/></clipPath>
+        </defs>
+      </svg>
+    </div>
+    <!-- ▲ ロゴここまで -->
+
+    <div class="knob-wrap">
+      <div class="knob" data-a="120" aria-hidden="true"></div>
+      <span class="knob-label">PRESSURE</span>
+    </div>
+  </header>
+
+  <!-- ============ 開催情報 ============ -->
+  <section class="panel date">
+    <div>2026/09/13 Sun.</div>
+    <div>11:00 - 18:00</div>
+    <div class="d-jp">高田馬場　音部屋スクエア</div>
+  </section>
+
+  <!-- ============ GEAR UP ============ -->
+  <section class="seg">
+    <div class="rail"><svg class="plug"><use href="#plug"/></svg><span class="spine"></span></div>
+    <div class="body">
+      <div class="sub">
+        <h2 class="h">GEAR UP...</h2>
+        <div class="card">
+          <p>準備は万端？「たま電」は来たら100点、楽しめたら200点のボーナスイベント！</p>
+          <p>まずは当日無事に参加できるように、直前の無理は禁物だぞ。（特定の疾患を除く）</p>
+          <p>楽器やスコアの準備はもちろんだけど、ドリンク・フードの持ち込みもできるので、忘れずに！！</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OPEN / START / 出演1-6 ============ -->
+  <section class="seg">
+    <div class="rail"><svg class="plug"><use href="#plug"/></svg><span class="spine"></span></div>
+    <div class="body">
+      <div class="sub">
+        <h2 class="h">11:00　OPEN</h2>
+        <div class="card">
+          <p>バンドマンにとっては午前中という厳しい時間だが、会場は11:00から入れる。さっそく集合してみんなで設営しよう！</p>
+        </div>
+      </div>
+      <div class="sub">
+        <h2 class="h">12:00　START</h2>
+        <div class="card">
+          <p>いよいよ開演！ 盛り上がっていこう！</p>
+        </div>
+      </div>
+      <div class="list">
+        <div class="row"><div class="left"><span class="num">1</span><span class="name">うに</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">2</span><span class="name">八巻千鶴</span></div><span class="cat">SOLO</span></div>
+        <div class="row"><div class="left"><span class="num">3</span><span class="name">つるぼす</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">4</span><span class="name">Piercing Cyclone</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">5</span><span class="name">閑古鳥ガールズ</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">6</span><span class="name">小俣大希</span></div><span class="cat">SOLO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SETTING CHANGE ============ -->
+  <section class="panel">
+    <div class="pt">SETTING CHANGE</div>
+    <div class="pb">うまく進めば 13:30 前後になる予定だぞ。<br>感想やコメントは大歓迎！ Discordも使ってね。</div>
+  </section>
+
+  <!-- ============ 出演7-13 ============ -->
+  <section class="seg">
+    <div class="rail"><svg class="plug"><use href="#plug"/></svg><span class="spine"></span></div>
+    <div class="body">
+      <div class="list">
+        <div class="row"><div class="left"><span class="num">7</span><span class="name">CANE DOE</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">8</span><span class="name">ハナミズキ</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">9</span><span class="name">ぺいのす</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">10</span><span class="name">予選落ちジャズ</span></div><span class="cat">BAND</span></div>
+        <div class="row"><div class="left"><span class="num">11</span><span class="name">たむらしん</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">12</span><span class="name">むらのす</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">13</span><span class="name">えびのす(仮)</span></div><span class="cat">UNIT</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SETTING CHANGE ============ -->
+  <section class="panel">
+    <div class="pt">SETTING CHANGE</div>
+    <div class="pb">うまく進めば 15:10 前後になる予定だぞ。<br>写真もたくさん撮ろう！</div>
+  </section>
+
+  <!-- ============ 出演14-21 ============ -->
+  <section class="seg">
+    <div class="rail"><svg class="plug"><use href="#plug"/></svg><span class="spine"></span></div>
+    <div class="body">
+      <div class="list">
+        <div class="row"><div class="left"><span class="num">14</span><span class="name">だから僕は電圧を上げた</span></div><span class="cat">BAND</span></div>
+        <div class="row"><div class="left"><span class="num">15</span><span class="name">しんぺいエレクトリック</span></div><span class="cat">SOLO</span></div>
+        <div class="row"><div class="left"><span class="num">16</span><span class="name">ヤバD</span></div><span class="cat">BAND</span></div>
+        <div class="row"><div class="left"><span class="num">17</span><span class="name">錦玉もなか</span></div><span class="cat">BAND</span></div>
+        <div class="row"><div class="left"><span class="num">18</span><span class="name">ペインテキーラーズ</span></div><span class="cat">UNIT</span></div>
+        <div class="row"><div class="left"><span class="num">19</span><span class="name">あな</span></div><span class="cat">SOLO</span></div>
+        <div class="row"><div class="left"><span class="num">20</span><span class="name">スズキ製作所（仮）</span></div><span class="cat">SOLO</span></div>
+        <div class="row"><div class="left"><span class="num">21</span><span class="name">重い愛</span></div><span class="cat">UNIT</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ END / LOGOUT ============ -->
+  <section class="seg">
+    <div class="rail"><svg class="plug"><use href="#plug"/></svg><span class="spine"></span></div>
+    <div class="body">
+      <div class="sub">
+        <h2 class="h">16:40　END</h2>
+        <div class="card">
+          <p>お疲れ様でした！ アツい余韻で気が狂いそうなところだとは思うけど、協力して撤収を進めよう。</p>
+          <p>私物や衣装などのコンタミに注意！</p>
+        </div>
+      </div>
+      <div class="sub">
+        <h2 class="h">LOGOUT//</h2>
+        <div class="card">
+          <p>会場の完全撤収は18:00だけど、打ち上げもあるし早めに出られたらどんどん出ましょう！</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AFTER PARTY ============ -->
+  <section class="panel">
+    <div class="pt">AFTER PARTY!!</div>
+    <div class="venue">炭火ビストロ ゴーバル 高田馬場店</div>
+    <a class="mapbtn" href="https://maps.app.goo.gl/4v1CWYuscZhML4BB9" target="_blank" rel="noopener">
+      GOOGLE MAP
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14v-3H8v-2h5V8l4 4-4 4z"/></svg>
+    </a>
+  </section>
+
+  <!-- ============ GO HOME ============ -->
+  <section class="seg">
+    <div class="rail"><svg class="plug"><use href="#plug"/></svg><span class="spine"></span></div>
+    <div class="body">
+      <div class="sub">
+        <h2 class="h">GO HOME</h2>
+        <div class="card">
+          <p>帰るまでが「たま電」だよ。気をつけて帰ろう！ 後日鑑賞会をやってもよいよね。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ Discord（感想など） ============ -->
+<a class="fab" id="discord" href="https://discord.com/channels/1463119330395820126/1523309238166884472" target="_blank" rel="noopener" aria-label="Discordで感想など">
+  <svg viewBox="0 0 127.14 96.36" fill="#fff"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
+  <span>感想など</span>
+</a>
+
+<script>
+/* ===== ヘッダーのツマミ：ドラッグ/スワイプで回せる（見た目だけの遊び） ===== */
+document.querySelectorAll('.knob').forEach(function(k){
+  var angle = parseFloat(k.dataset.a || 0);
+  k.style.transform = 'rotate(' + angle + 'deg)';
+  var dragging = false, cx = 0, cy = 0, startAng = 0, startRot = 0;
+  function pointAngle(x, y){ return Math.atan2(y - cy, x - cx) * 180 / Math.PI; }
+  k.addEventListener('pointerdown', function(e){
+    dragging = true;
+    try{ k.setPointerCapture(e.pointerId); }catch(_){}
+    var r = k.getBoundingClientRect();
+    cx = r.left + r.width / 2; cy = r.top + r.height / 2;
+    startAng = pointAngle(e.clientX, e.clientY); startRot = angle;
+    e.preventDefault();
+  });
+  k.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    angle = startRot + (pointAngle(e.clientX, e.clientY) - startAng);
+    k.style.transform = 'rotate(' + angle + 'deg)';
+  });
+  function end(){ dragging = false; }
+  k.addEventListener('pointerup', end);
+  k.addEventListener('pointercancel', end);
+});
+
+/* ===== Discord：スマホではアプリ優先で開き、ダメならブラウザ版へ ===== */
+(function(){
+  var GUILD = '1463119330395820126';
+  var CHANNEL = '1523309238166884472';
+  var web = 'https://discord.com/channels/' + GUILD + '/' + CHANNEL;
+  var app = 'discord://-/channels/' + GUILD + '/' + CHANNEL;
+  var el = document.getElementById('discord');
+  if(!el) return;
+  el.setAttribute('href', web);
+  el.addEventListener('click', function(e){
+    if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+      e.preventDefault();
+      var t = Date.now();
+      setTimeout(function(){ if(Date.now() - t < 1500){ location.href = web; } }, 1000);
+      location.href = app; /* まずアプリを試す */
+    }
+    /* PCはそのままブラウザ版（web）が開く */
+  });
+})();
+</script>
+</body>
+</html>
