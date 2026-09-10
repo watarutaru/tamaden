@@ -47,19 +47,11 @@ body{
 
 /* ===== ヘッダー（ツマミ + ロゴ） ===== */
 .head{display:flex;align-items:center;gap:14px}
-.knob-wrap{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;width:52px}
-.knob{
-  width:46px;height:46px;border-radius:50%;position:relative;
-  cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;
-  background:radial-gradient(circle at 38% 30%, #5c5754, #201c1b 72%);
-  box-shadow:0 2px 4px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.18), inset 0 -2px 3px rgba(0,0,0,.4);
-}
+.knob-wrap{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:5px}
+.knob{width:52px;height:52px;display:block;cursor:grab;touch-action:none;
+  user-select:none;-webkit-user-select:none;transform-origin:50% 50%}
 .knob:active{cursor:grabbing}
-.knob::after{ /* 指針 */
-  content:"";position:absolute;left:50%;top:5px;width:3px;height:14px;margin-left:-1.5px;
-  border-radius:2px;background:#f2efe9;box-shadow:0 0 2px rgba(0,0,0,.5);
-}
-.knob-label{font-family:var(--disp);font-weight:700;font-size:9px;letter-spacing:.08em;color:var(--ink)}
+.knob-label{font-family:var(--disp);font-weight:900;font-size:10px;letter-spacing:.02em;color:var(--ink);white-space:nowrap}
 
 /* ロゴ（Figma書き出しのSVGをそのまま埋め込み。枠線もSVGに含まれる） */
 .logo{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center}
@@ -90,8 +82,8 @@ body{
 /* ===== タイムライン ===== */
 .seg{display:flex;align-items:stretch}
 .rail{width:40px;flex:0 0 40px;display:flex;flex-direction:column;align-items:center}
-.rail .plug{width:40px;height:auto;display:block}
-.spine{width:6px;flex:1 1 auto;min-height:8px;background:var(--ink);border-radius:3px;margin-top:-3px}
+.rail .plug{width:40px;height:62px;display:block;flex:0 0 auto}
+.spine{width:6px;flex:1 1 auto;min-height:0;background:var(--ink);border-radius:0 0 3px 3px;margin-top:-4px}
 .seg .body{flex:1 1 auto;min-width:0;padding:8px 24px}
 .sub{margin-bottom:16px}
 .sub:last-child{margin-bottom:0}
@@ -106,7 +98,7 @@ body{
 .cat{flex:0 0 auto;font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.06em;color:var(--ink)}
 
 /* ===== Discordフローティングボタン ===== */
-.fab{position:fixed;right:16px;bottom:16px;z-index:50;width:64px;height:64px;border-radius:18px;
+.fab{position:fixed;right:16px;bottom:16px;z-index:50;width:72px;height:72px;border-radius:50%;
   background:var(--discord);color:var(--white);text-decoration:none;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   box-shadow:0 4px 14px rgba(0,0,0,.28)}
@@ -123,11 +115,11 @@ body{
 
 <!-- 再利用するアイコン定義（画面には出ない） -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="plug" viewBox="0 0 40 64">
-    <polygon points="20,3 35,12 35,30 20,39 5,30 5,12" fill="#c9c9c9"/>
-    <polygon points="20,6 32,13.5 32,28.5 20,36 8,28.5 8,13.5" fill="#e4e4e4"/>
-    <circle cx="20" cy="21" r="6.5" fill="#2f2725"/>
-    <path d="M20,38 C20,45 26,46 26,51 C26,57 20,56 20,63" fill="none" stroke="#2f2725" stroke-width="6" stroke-linecap="round"/>
+  <symbol id="plug" viewBox="0 0 40 62">
+    <polygon points="20,2 37,11 37,31 20,40 3,31 3,11" fill="#9a9a9a"/>
+    <polygon points="20,5 34,12.5 34,29.5 20,37 6,29.5 6,12.5" fill="#e0e0e0"/>
+    <polygon points="20,5 34,12.5 20,19 6,12.5" fill="#efefef"/>
+    <path d="M20,27 C20,39 32,41 32,50 C32,58 20,56 20,62" fill="none" stroke="#2f2725" stroke-width="6" stroke-linecap="round"/>
   </symbol>
 </svg>
 
@@ -136,7 +128,11 @@ body{
   <!-- ============ ヘッダー ============ -->
   <header class="head">
     <div class="knob-wrap">
-      <div class="knob" data-a="-125" aria-hidden="true"></div>
+      <svg class="knob" viewBox="0 0 52 52" data-a="45" aria-hidden="true">
+        <circle cx="26" cy="26" r="25.5" fill="#161311" stroke="#000" stroke-width="1"/>
+        <polygon points="26,11 39,18.5 39,33.5 26,41 13,33.5 13,18.5" fill="#4a4744" stroke="#4a4744" stroke-width="4.5" stroke-linejoin="round"/>
+        <line x1="26" y1="25" x2="26" y2="12.5" stroke="#f4f1eb" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
       <span class="knob-label">GAIN</span>
     </div>
 
@@ -161,7 +157,11 @@ body{
     <!-- ▲ ロゴここまで -->
 
     <div class="knob-wrap">
-      <div class="knob" data-a="120" aria-hidden="true"></div>
+      <svg class="knob" viewBox="0 0 52 52" data-a="150" aria-hidden="true">
+        <circle cx="26" cy="26" r="25.5" fill="#161311" stroke="#000" stroke-width="1"/>
+        <polygon points="26,11 39,18.5 39,33.5 26,41 13,33.5 13,18.5" fill="#4a4744" stroke="#4a4744" stroke-width="4.5" stroke-linejoin="round"/>
+        <line x1="26" y1="25" x2="26" y2="12.5" stroke="#f4f1eb" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
       <span class="knob-label">PRESSURE</span>
     </div>
   </header>
