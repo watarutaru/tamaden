@@ -30,6 +30,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0}
+h1,h2,h3,h4,h5,h6,p,figure{margin:0}
 body{
   background:var(--bg);
   color:var(--ink);
@@ -57,11 +58,11 @@ body{
 
 /* ロゴ（Figma書き出しのSVGをそのまま埋め込み。枠線もSVGに含まれる） */
 .logo{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center}
-.logo .logo-svg{width:100%;height:auto;display:block}
+.logo .logo-svg{width:100%;height:auto;max-height:60px;display:block}
 
 /* ===== 汎用 ===== */
 .h{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink);line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
-.card{background:var(--white);border-radius:8px;padding:12px 16px;font-family:var(--body);font-weight:500;
+.card{background:var(--white);border-radius:8px;padding:12px 16px;font-family:var(--body);font-weight:700;
   font-size:11px;line-height:1.5;color:var(--ink)}
 .card p{margin:0 0 4px}
 .card p:last-child{margin:0}
@@ -70,7 +71,7 @@ body{
 .panel{background:var(--panel);color:var(--white);border-radius:4px;padding:16px 24px;
   display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .panel .pt{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.06em;line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
-.panel .pb{font-family:var(--body);font-weight:400;font-size:11px;line-height:1.4}
+.panel .pb{font-family:var(--body);font-weight:500;font-size:11px;line-height:1.4}
 .panel.date .d-jp{font-family:var(--body);font-weight:900;font-size:14px;line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 .panel.date>div{font-family:var(--disp);font-weight:700;font-size:14px;line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 
@@ -86,7 +87,7 @@ body{
 .rail{width:40px;flex:0 0 40px;display:flex;flex-direction:column;align-items:center}
 .rail .plug{width:40px;height:67px;display:block;flex:0 0 auto}
 .spine{width:6px;flex:1 1 auto;min-height:0;background:var(--ink);border-radius:3px;margin-top:-6px}
-.seg .body{flex:1 1 auto;min-width:0;padding:8px 24px;display:flex;flex-direction:column;gap:24px}
+.seg .body{flex:1 1 auto;min-width:0;padding:8px 16px;display:flex;flex-direction:column;gap:24px}
 .sub{display:flex;flex-direction:column;gap:8px}
 .list{display:flex;flex-direction:column;gap:24px}
 
@@ -95,7 +96,7 @@ body{
 .row .left{display:flex;align-items:center;gap:4px;min-width:0}
 .num{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--white);
   font-family:var(--disp);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
-.name{font-family:var(--body);font-weight:900;font-size:16px;line-height:1;color:var(--ink);overflow-wrap:anywhere;text-box-trim:trim-both;text-box-edge:cap alphabetic}
+.name{font-family:'Zalando Sans','Zen Kaku Gothic Antique',sans-serif;font-weight:700;font-size:16px;line-height:1;color:var(--ink);overflow-wrap:anywhere;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 .cat{flex:0 0 auto;font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.06em;color:var(--ink);line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 
 /* ===== Discordフローティングボタン ===== */
