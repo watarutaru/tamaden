@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f5c63c">
+<meta name="theme-color" content="#FFDA41">
 <title>たま電 プログラム</title>
 <meta name="description" content="身内向け音楽イベント「たま電」当日プログラム">
 
@@ -19,7 +19,7 @@
    - 色や文言はこの下の変数・HTMLを編集すればOK
    ========================================================= */
 :root{
-  --bg:#f5c63c;      /* 背景イエロー（お好みで微調整可） */
+  --bg:#FFDA41;      /* 背景イエロー */
   --ink:#2f2725;     /* 濃い茶（文字・ケーブル・バッジ） */
   --panel:#4c4948;   /* グレーのブロック */
   --white:#ffffff;
@@ -40,24 +40,27 @@ body{
 }
 .wrap{
   width:100%;
-  max-width:402px;
+  max-width:580px;
   margin:0 auto;
   padding:24px 24px 8px;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
 }
 
 /* ===== ヘッダー（ツマミ + ロゴ） ===== */
-.head{display:flex;align-items:center;gap:14px}
-.knob{width:56px;height:auto;flex:0 0 auto;display:block;cursor:grab;touch-action:none;
+.head{display:flex;align-items:center;gap:24px}
+.knob{width:60px;height:auto;flex:0 0 auto;display:block;cursor:grab;touch-action:none;
   user-select:none;-webkit-user-select:none}
 .knob:active{cursor:grabbing}
 .knob-rot{will-change:transform}
 
 /* ロゴ（Figma書き出しのSVGをそのまま埋め込み。枠線もSVGに含まれる） */
 .logo{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center}
-.logo .logo-svg{width:100%;height:auto;max-width:190px;display:block}
+.logo .logo-svg{width:100%;height:auto;display:block}
 
 /* ===== 汎用 ===== */
-.h{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink);margin:0 0 8px}
+.h{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink);line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 .card{background:var(--white);border-radius:8px;padding:12px 16px;font-family:var(--body);font-weight:500;
   font-size:11px;line-height:1.5;color:var(--ink)}
 .card p{margin:0 0 4px}
@@ -65,14 +68,14 @@ body{
 
 /* ===== グレーのブロック（日付 / SETTING CHANGE / AFTER PARTY） ===== */
 .panel{background:var(--panel);color:var(--white);border-radius:4px;padding:16px 24px;
-  display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;margin:24px 0}
-.panel .pt{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.06em}
+  display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.panel .pt{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.06em;line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 .panel .pb{font-family:var(--body);font-weight:400;font-size:11px;line-height:1.4}
-.panel.date .d-jp{font-family:var(--body);font-weight:900;font-size:14px}
-.panel.date>div{font-family:var(--disp);font-weight:700;font-size:14px}
+.panel.date .d-jp{font-family:var(--body);font-weight:900;font-size:14px;line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
+.panel.date>div{font-family:var(--disp);font-weight:700;font-size:14px;line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 
 /* AFTER PARTY */
-.panel .venue{font-family:var(--body);font-weight:700;font-size:12px}
+.panel .venue{font-family:var(--body);font-weight:700;font-size:12px;line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 .mapbtn{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;width:150px;
   background:var(--map);color:var(--white);text-decoration:none;border-radius:38px;padding:8px 16px;
   font-family:var(--disp);font-weight:900;font-size:10px;letter-spacing:.04em}
@@ -83,18 +86,17 @@ body{
 .rail{width:40px;flex:0 0 40px;display:flex;flex-direction:column;align-items:center}
 .rail .plug{width:40px;height:67px;display:block;flex:0 0 auto}
 .spine{width:6px;flex:1 1 auto;min-height:0;background:var(--ink);border-radius:3px;margin-top:-6px}
-.seg .body{flex:1 1 auto;min-width:0;padding:8px 24px}
-.sub{margin-bottom:16px}
-.sub:last-child{margin-bottom:0}
-.list{margin-top:4px}
+.seg .body{flex:1 1 auto;min-width:0;padding:8px 24px;display:flex;flex-direction:column;gap:24px}
+.sub{display:flex;flex-direction:column;gap:8px}
+.list{display:flex;flex-direction:column;gap:24px}
 
 /* 出演行 */
-.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0}
-.row .left{display:flex;align-items:center;gap:8px;min-width:0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.row .left{display:flex;align-items:center;gap:4px;min-width:0}
 .num{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--white);
   font-family:var(--disp);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
-.name{font-family:var(--body);font-weight:900;font-size:16px;line-height:1.15;color:var(--ink);overflow-wrap:anywhere}
-.cat{flex:0 0 auto;font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.06em;color:var(--ink)}
+.name{font-family:var(--body);font-weight:900;font-size:16px;line-height:1;color:var(--ink);overflow-wrap:anywhere;text-box-trim:trim-both;text-box-edge:cap alphabetic}
+.cat{flex:0 0 auto;font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.06em;color:var(--ink);line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic}
 
 /* ===== Discordフローティングボタン ===== */
 .fab{position:fixed;right:16px;bottom:16px;z-index:50;width:72px;height:72px;border-radius:50%;
